@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PercentageCalc</title>
+<style>
+    body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:grey;
+            height: 100vh;
+            width: 100vw;
+            color: #333;
+            background-image:url('gradient.jpg');
+            background-repeat: no-repeat;
+            background-size:cover;
+    }
+
+        .pro-header {
+            text-align: center;
+            border-color: black;
+            background-color:transparent;
+            color:black;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size:30px;
+        }
+
+        .full-div {
+            margin: 0 auto;
+            max-width: 600px;
+            background-color:transparent;
+            backdrop-filter: blur(100px);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .calculated-percentage {
+            background-color:transparent;
+            border: 1px solid;
+            text-align: center;
+            height: 40px;
+            width: 200px;
+            padding-top: 10px;
+            padding-bottom: 1px;
+            border-radius: 170px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .total-div {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .total-div div {
+            padding: 10px;
+        }
+
+        .add-button,
+        .showstat,
+        .reset {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        .add-button:hover,
+        .showstat:hover,
+        .reset:hover {
+            background-color: #2980b9;
+        }
+
+        .closestat {
+            background-color: transparent;
+            border-radius: 20px;
+            border: 2px solid #bdc3c7;
+            padding: 5px 10px;
+            color: #333;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .closestat:hover {
+            background-color: #d0d3d4;
+        }
+
+        .dsa-div {
+            text-align: center;
+        }
+
+        .para {
+            display:flex;
+            flex-direction: column;
+            margin-left:auto;
+            margin-right: auto;
+            height: auto;
+            width: auto;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        .button-div{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .input-div{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .date-div{
+            margin-top: 10px;
+        }
+        .summadelete{
+            background-color:rgba(131, 4, 4, 0.137);
+            height: 30px;
+            width: 100px;
+            padding:2px;
+            border: 1px transparent;
+            border-radius: 50px;
+        }
+        
+</style>
+</head>
+<body>
+    <header class="pro-header">PERCENTAGE CALC</header>
+   <div class="full-div">
+    <form>
+    <h1>DSA</h1>
+    <h2 class="calculated-percentage">100</h2>
+    <br>
+    <div class="input-div">
+    <div class="hour-div">
+    <label for="DSA">Enter leave hours :</label>
+    <input type="text" name="DSA" id="dsa" class="dsa" placeholder="total hours" >
+</div>
+<div class="date-div">
+    <label for="date">Enter Date :</label>
+    <input type="date" class="duedate" name="date">
+</div>
+</div>
+    <div class="button-div">
+        <button   type="button" class="reset" onclick="resetall();">RESET</button>
+    <button type="button" class="showstat" onclick="dis()">show stats</button>
+   
+    <button type="button"class="add-button" onclick="count1()">Add</button>
+</div>
+</form>
+    <div class="dsa-div"></div>
+    <script>
+    let dsalist=[];
+    let totalhour;
+    let percent;
+    let contacthour=60;
+    let index=0;
+     let html;
+     let paragraph='';
+    let check= localStorage.getItem('summa');
+    console.log(check);
+    if(check!=null){
+        dsalist=JSON.parse(check);
+        console.log('hello')
+        
+        let dum=dsalist[dsalist.length-1];
+        if(dsalist.length-1>0){
+        totalhour=dum.totalhour;
+        percent=dum.percent;
+        }
+        else{
+            totalhour=0;
+            percent=100;
+        }
+        console.log(totalhour);
+        console.log(percent);
+        rendertodo();
+    }
+    else{
+        totalhour=0;
+        percent=100;
+    }
+   
+       
+     function rendertodo(){
+        let h='';
+        let i;
+        if(dsalist.length-1>=0){
+        i=dsalist.length-1;
+        const element=dsalist[i];
+        let hour=element.hour;
+        let due=element.due;
+        let percent=element.percent;
+        let totalhour=element.totalhour;
+         console.log(totalhour)
+         if(dsalist.length==0){
+            document.querySelector('.calculated-percentage').innerHTML=100;
+         }
+         else{
+        document.querySelector('.calculated-percentage').innerHTML=percent;
+         }
+        
+        html=`<div class="total-div"><div>${hour}</div><div>${due}</div>
+             <button class="summadelete" onclick="deletedisplay()">delete</button></div><br>`;
+            h+=html;
+      document.querySelector('.dsa-div').innerHTML=h;
+      console.log(dsalist);}
+     }
+     
+        function count1(){
+            //selects the value of hours
+            let el=document.querySelector('.dsa').value;
+              //selects the value of dates
+            let date=document.querySelector('.duedate');
+            let hour=Number(el);
+            // console.log(totalhour);
+            totalhour+=hour;
+            console.log(totalhour);
+            percent=100-((totalhour/contacthour)*100);
+            percent=percent.toFixed(2);
+            const due=date.value;
+            dsalist.push({
+                hour,due,percent,totalhour
+            });
+            local();
+            rendertodo();
+        }
+        function deletedisplay(){
+                 let dummy =dsalist[dsalist.length-1];
+                 //to be deleted
+            dsalist.splice(dsalist.length-1,1);
+             document.querySelector('.total-div').innerHTML='';
+            
+             console.log(dsalist.length)
+
+             totalhour-=dummy.hour;
+            local();
+            rendertodo();
+            if(dsalist.length==0){
+            document.querySelector('.calculated-percentage').innerHTML=100;
+         }
+        }
+        
+        function resetall(){
+            
+            percent=100,hour=0,due=0,totalhour=0;
+            if(dsalist.length!=0){
+            document.querySelector('.total-div').innerHTML=''
+            document.querySelector('.calculated-percentage').innerHTML='100';
+        }
+            dsalist=[];
+            localStorage.clear();
+
+        }
+        function local(){
+                 let localvar=JSON.stringify(dsalist);
+                 console.log(localvar);
+                 localStorage.setItem('summa',localvar);
+                 
+        }
+        function closestat(){
+            document.querySelector('.para').innerHTML='';
+            paragraph='';
+        }
+
+     function dis(){
+        document.querySelector('.para').innerHTML='';
+            paragraph='';
+        for(let k=0;k<dsalist.length;k++){
+            paragraph+=dsalist[k].hour+'hours on'+`<br>`+dsalist[k].due+`<br>`+`<hr>`;}
+            document.querySelector('.para').innerHTML=paragraph+`<button class="closestat" onclick="closestat()">close stat</button>`;
+        }
+    </script>
+     <div class="para"></div>
+</div>
+</body>
+</html>
